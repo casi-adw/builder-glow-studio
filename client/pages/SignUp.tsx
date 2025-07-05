@@ -75,7 +75,7 @@ export default function SignUp() {
           <div className="absolute inset-0 rounded-[33px] bg-gradient-to-b from-blue-500/20 via-transparent to-transparent opacity-50" />
           <div className="absolute inset-0 rounded-[33px] shadow-[0_0_50px_rgba(29,146,242,0.3)]" />
 
-          <div className="relative z-10 space-y-4">
+          <div className="relative z-10 space-y-6">
             {/* Logo */}
             <div className="flex flex-col items-center space-y-3">
               <img
@@ -159,7 +159,7 @@ export default function SignUp() {
             </div>
 
             {/* Privacy Policy */}
-            <div className="flex items-center space-x-2 text-xs">
+            <div className="flex items-center space-x-2 text-xs mt-2">
               <div
                 className={`w-4 h-4 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all ${
                   acceptPolicy
