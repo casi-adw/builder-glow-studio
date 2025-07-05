@@ -9,11 +9,6 @@ import {
 } from "lucide-react";
 
 export default function HomePage() {
-  const [currentGameIndex, setCurrentGameIndex] = useState(0);
-  const [currentPopularIndex, setCurrentPopularIndex] = useState(0);
-  const [currentCrashIndex, setCurrentCrashIndex] = useState(0);
-  const [currentFantasyIndex, setCurrentFantasyIndex] = useState(0);
-
   const gamesCarouselRef = useRef<HTMLDivElement>(null);
   const popularCarouselRef = useRef<HTMLDivElement>(null);
   const crashCarouselRef = useRef<HTMLDivElement>(null);
@@ -106,39 +101,13 @@ export default function HomePage() {
     },
   ];
 
-  // Auto-scroll effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentGameIndex((prev) => (prev + 1) % gamesData.length);
-      setCurrentPopularIndex((prev) => (prev + 1) % popularGames.length);
-      setCurrentCrashIndex((prev) => (prev + 1) % crashGames.length);
-      setCurrentFantasyIndex((prev) => (prev + 1) % fantasyGames.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [
-    gamesData.length,
-    popularGames.length,
-    crashGames.length,
-    fantasyGames.length,
-  ]);
-
-  // Scroll functions
-  const scrollToGame = (index: number) => {
-    setCurrentGameIndex(index);
-    if (gamesCarouselRef.current) {
-      gamesCarouselRef.current.scrollTo({
-        left: index * 94,
-        behavior: "smooth",
-      });
-    }
-  };
+  // Manual scroll - no auto-scroll
 
   return (
     <div className="min-h-screen w-full bg-black text-white overflow-y-auto">
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="absolute animate-twinkle"
@@ -194,14 +163,17 @@ export default function HomePage() {
 
           <div
             ref={gamesCarouselRef}
-            className="flex gap-2 overflow-x-auto scrollbar-hide"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex gap-2 overflow-x-scroll scrollbar-hide pb-2"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              WebkitScrollbar: { display: "none" },
+            }}
           >
-            {gamesData.map((game, index) => (
+            {[...gamesData, ...gamesData].map((game, index) => (
               <div
                 key={index}
-                className="relative min-w-[86px] h-[98px] rounded-2xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
-                onClick={() => scrollToGame(index)}
+                className="relative min-w-[86px] h-[98px] rounded-2xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 flex-shrink-0"
               >
                 <img
                   src={game.image}
@@ -228,24 +200,23 @@ export default function HomePage() {
             <span className="text-gray-400 text-sm">See all</span>
           </div>
 
-          <div className="overflow-hidden">
-            <div
-              ref={popularCarouselRef}
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                transform: `translateX(-${currentPopularIndex * 100}%)`,
-              }}
-            >
-              {popularGames.map((game, index) => (
-                <div key={index} className="min-w-full">
-                  <img
-                    src={game.image}
-                    alt={`Popular game ${index + 1}`}
-                    className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
-                  />
-                </div>
-              ))}
-            </div>
+          <div
+            ref={popularCarouselRef}
+            className="flex gap-4 overflow-x-scroll scrollbar-hide pb-2"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {[...popularGames, ...popularGames].map((game, index) => (
+              <div key={index} className="min-w-[300px] flex-shrink-0">
+                <img
+                  src={game.image}
+                  alt={`Popular game ${index + 1}`}
+                  className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -256,24 +227,23 @@ export default function HomePage() {
             <span className="text-gray-400">Games</span>
           </h2>
 
-          <div className="overflow-hidden">
-            <div
-              ref={crashCarouselRef}
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                transform: `translateX(-${currentCrashIndex * 100}%)`,
-              }}
-            >
-              {crashGames.map((game, index) => (
-                <div key={index} className="min-w-full">
-                  <img
-                    src={game.image}
-                    alt={`Crash game ${index + 1}`}
-                    className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
-                  />
-                </div>
-              ))}
-            </div>
+          <div
+            ref={crashCarouselRef}
+            className="flex gap-4 overflow-x-scroll scrollbar-hide pb-2"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {[...crashGames, ...crashGames].map((game, index) => (
+              <div key={index} className="min-w-[300px] flex-shrink-0">
+                <img
+                  src={game.image}
+                  alt={`Crash game ${index + 1}`}
+                  className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -284,24 +254,23 @@ export default function HomePage() {
             <span className="text-gray-400">Sport</span>
           </h2>
 
-          <div className="overflow-hidden">
-            <div
-              ref={fantasyCarouselRef}
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                transform: `translateX(-${currentFantasyIndex * 100}%)`,
-              }}
-            >
-              {fantasyGames.map((game, index) => (
-                <div key={index} className="min-w-full">
-                  <img
-                    src={game.image}
-                    alt={`Fantasy sport ${index + 1}`}
-                    className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
-                  />
-                </div>
-              ))}
-            </div>
+          <div
+            ref={fantasyCarouselRef}
+            className="flex gap-4 overflow-x-scroll scrollbar-hide pb-2"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {[...fantasyGames, ...fantasyGames].map((game, index) => (
+              <div key={index} className="min-w-[300px] flex-shrink-0">
+                <img
+                  src={game.image}
+                  alt={`Fantasy sport ${index + 1}`}
+                  className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
