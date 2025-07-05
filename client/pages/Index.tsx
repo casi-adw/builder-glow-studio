@@ -7,6 +7,11 @@ export default function Index() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-black flex items-center justify-center p-4">
+      {/* Background gradient patterns */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-black to-purple-950/20" />
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(29,146,242,0.1)_0%,transparent_50%)]" />
+      <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(147,51,234,0.1)_0%,transparent_70%)]" />
+
       {/* Animated Stars Background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(50)].map((_, i) => (
@@ -49,7 +54,11 @@ export default function Index() {
 
       {/* Login Card */}
       <div className="relative w-full max-w-sm mx-auto">
-        <div className="relative bg-black/30 backdrop-blur-xl rounded-[33px] border border-white/10 p-6 overflow-hidden">
+        {/* Enhanced outer glow */}
+        <div className="absolute inset-0 rounded-[33px] shadow-[0_0_100px_rgba(29,146,242,0.4)] blur-sm" />
+        <div className="absolute inset-0 rounded-[33px] shadow-[0_0_200px_rgba(29,146,242,0.2)]" />
+
+        <div className="relative bg-black/40 backdrop-blur-xl rounded-[33px] border border-blue-500/30 p-6 overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
           {/* Card glow effect */}
           <div className="absolute inset-0 rounded-[33px] bg-gradient-to-b from-blue-500/20 via-transparent to-transparent opacity-50" />
           <div className="absolute inset-0 rounded-[33px] shadow-[0_0_50px_rgba(29,146,242,0.3)]" />
@@ -72,7 +81,7 @@ export default function Index() {
 
             {/* Heading */}
             <div className="text-center space-y-2">
-              <h1 className="text-white text-lg font-medium">
+              <h1 className="bg-gradient-to-r from-purple-400 via-pink-300 to-purple-500 bg-clip-text text-transparent text-lg font-medium">
                 Be Inspired by the Unexpected
               </h1>
               <p className="text-white/60 text-xs">
