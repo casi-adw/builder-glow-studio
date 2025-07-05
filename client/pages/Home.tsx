@@ -76,6 +76,21 @@ export default function HomePage() {
     },
   ];
 
+  const popularGames = [
+    {
+      image:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/b22a230e4726ea6ecfb21adfa57fdb45a6a93647?placeholderIfAbsent=true",
+    },
+    {
+      image:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/b22a230e4726ea6ecfb21adfa57fdb45a6a93647?placeholderIfAbsent=true",
+    },
+    {
+      image:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/b22a230e4726ea6ecfb21adfa57fdb45a6a93647?placeholderIfAbsent=true",
+    },
+  ];
+
   const fantasyGames = [
     {
       image:
@@ -95,13 +110,18 @@ export default function HomePage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentGameIndex((prev) => (prev + 1) % gamesData.length);
-      setCurrentPopularIndex((prev) => (prev + 1) % 2);
+      setCurrentPopularIndex((prev) => (prev + 1) % popularGames.length);
       setCurrentCrashIndex((prev) => (prev + 1) % crashGames.length);
       setCurrentFantasyIndex((prev) => (prev + 1) % fantasyGames.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [gamesData.length, crashGames.length, fantasyGames.length]);
+  }, [
+    gamesData.length,
+    popularGames.length,
+    crashGames.length,
+    fantasyGames.length,
+  ]);
 
   // Scroll functions
   const scrollToGame = (index: number) => {
@@ -151,9 +171,9 @@ export default function HomePage() {
             </div>
 
             {/* Centralized Logo */}
-            <div className="flex-1 flex justify-center">
+            <div className="absolute left-1/2 transform -translate-x-1/2">
               <div className="text-white font-bold text-xl tracking-wide">
-                <span className="text-yellow-400">⭐</span> starz
+                starz
               </div>
             </div>
           </div>
@@ -209,11 +229,23 @@ export default function HomePage() {
           </div>
 
           <div className="overflow-hidden">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/b22a230e4726ea6ecfb21adfa57fdb45a6a93647?placeholderIfAbsent=true"
-              alt="Popular games"
-              className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
-            />
+            <div
+              ref={popularCarouselRef}
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentPopularIndex * 100}%)`,
+              }}
+            >
+              {popularGames.map((game, index) => (
+                <div key={index} className="min-w-full">
+                  <img
+                    src={game.image}
+                    alt={`Popular game ${index + 1}`}
+                    className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -225,11 +257,23 @@ export default function HomePage() {
           </h2>
 
           <div className="overflow-hidden">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/38d554a47656c3c20d2165e76c0cfb0f1707b2f7?placeholderIfAbsent=true"
-              alt="Crash games"
-              className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
-            />
+            <div
+              ref={crashCarouselRef}
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentCrashIndex * 100}%)`,
+              }}
+            >
+              {crashGames.map((game, index) => (
+                <div key={index} className="min-w-full">
+                  <img
+                    src={game.image}
+                    alt={`Crash game ${index + 1}`}
+                    className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -241,11 +285,23 @@ export default function HomePage() {
           </h2>
 
           <div className="overflow-hidden">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/a80bf6481a5f12caf70bc1bab8c9622f1adcfa0b?placeholderIfAbsent=true"
-              alt="Fantasy sports"
-              className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
-            />
+            <div
+              ref={fantasyCarouselRef}
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentFantasyIndex * 100}%)`,
+              }}
+            >
+              {fantasyGames.map((game, index) => (
+                <div key={index} className="min-w-full">
+                  <img
+                    src={game.image}
+                    alt={`Fantasy sport ${index + 1}`}
+                    className="w-full h-auto rounded-2xl cursor-pointer transform transition-transform hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
