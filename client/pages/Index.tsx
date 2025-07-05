@@ -12,6 +12,15 @@ export default function Index() {
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(29,146,242,0.1)_0%,transparent_50%)]" />
       <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(147,51,234,0.1)_0%,transparent_70%)]" />
 
+      {/* Background image on right corner */}
+      <div className="absolute bottom-0 right-0 w-1/3 h-1/2 opacity-30">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/49d0f5ecc51bdd31675891f1d4e6293eebab806d?placeholderIfAbsent=true"
+          alt="Background decoration"
+          className="w-full h-full object-cover mix-blend-screen"
+        />
+      </div>
+
       {/* Animated Stars Background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(50)].map((_, i) => (
@@ -66,17 +75,11 @@ export default function Index() {
           <div className="relative z-10 space-y-6">
             {/* Logo */}
             <div className="flex flex-col items-center space-y-3">
-              <div className="relative">
-                <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center border border-white/20">
-                  <div className="text-yellow-400 text-xl">✨</div>
-                </div>
-                <div className="absolute -top-1 -right-1 text-yellow-400 text-sm animate-pulse">
-                  ✨
-                </div>
-              </div>
-              <div className="text-white font-semibold text-lg tracking-wide">
-                starz
-              </div>
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/409b62c2ded1c7c1e23880eed880d163217b69f7?placeholderIfAbsent=true"
+                alt="Logo"
+                className="w-14 h-14 rounded-full"
+              />
             </div>
 
             {/* Heading */}
