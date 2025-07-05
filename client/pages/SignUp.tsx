@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Index() {
-  const [username, setUsername] = useState("hello!");
+export default function SignUp() {
+  const [name, setName] = useState("Oliver Bennet");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
+  const [cpf, setCpf] = useState("");
+  const [acceptPolicy, setAcceptPolicy] = useState(false);
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-black flex items-center justify-center p-4">
@@ -62,7 +64,7 @@ export default function Index() {
         ))}
       </div>
 
-      {/* Login Card */}
+      {/* SignUp Card */}
       <div className="relative w-full max-w-sm mx-auto">
         {/* Enhanced outer glow */}
         <div className="absolute inset-0 rounded-[33px] shadow-[0_0_100px_rgba(29,146,242,0.4)] blur-sm" />
@@ -73,11 +75,11 @@ export default function Index() {
           <div className="absolute inset-0 rounded-[33px] bg-gradient-to-b from-blue-500/20 via-transparent to-transparent opacity-50" />
           <div className="absolute inset-0 rounded-[33px] shadow-[0_0_50px_rgba(29,146,242,0.3)]" />
 
-          <div className="relative z-10 space-y-6">
+          <div className="relative z-10 space-y-4">
             {/* Logo */}
             <div className="flex flex-col items-center space-y-3">
               <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/409b62c2ded1c7c1e23880eed880d163217b69f7?placeholderIfAbsent=true"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/fc8cfca53adb66b3b9c9418de9b79a129b6ae610?placeholderIfAbsent=true"
                 alt="Logo"
                 className="w-14 h-14 rounded-full"
               />
@@ -93,17 +95,30 @@ export default function Index() {
               </p>
             </div>
 
-            {/* Username Input */}
+            {/* Name Input */}
             <div className="relative">
               <div className="relative rounded-full border border-blue-500/60 bg-black/20 backdrop-blur-sm shadow-[0_0_10px_rgba(29,146,242,0.3)] overflow-hidden">
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full px-4 py-3 bg-transparent text-white placeholder-white/60 border-none outline-none text-sm"
-                  placeholder="hello!"
+                  placeholder="Oliver Bennet"
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-px h-6 bg-white/20" />
+              </div>
+            </div>
+
+            {/* Email Input */}
+            <div className="relative">
+              <div className="relative rounded-full border border-white/20 bg-black/20 backdrop-blur-sm overflow-hidden">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-transparent text-white placeholder-white/60 border-none outline-none text-sm"
+                  placeholder="Email Address"
+                />
               </div>
             </div>
 
@@ -115,7 +130,7 @@ export default function Index() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 bg-transparent text-white placeholder-white/60 border-none outline-none text-sm"
-                  placeholder="Enter password"
+                  placeholder="Enter Password"
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                   <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center shadow-[0_0_10px_rgba(29,146,242,0.8)]">
@@ -125,41 +140,54 @@ export default function Index() {
               </div>
             </div>
 
-            {/* Options Row */}
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-2">
-                <div
-                  className={`w-4 h-4 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all ${
-                    rememberMe
-                      ? "border-blue-500 bg-blue-500 shadow-[0_0_10px_rgba(29,146,242,1)]"
-                      : "border-white/40"
-                  }`}
-                  onClick={() => setRememberMe(!rememberMe)}
-                >
-                  {rememberMe && (
+            {/* CPF Input */}
+            <div className="relative">
+              <div className="relative rounded-full border border-white/20 bg-black/20 backdrop-blur-sm overflow-hidden">
+                <input
+                  type="text"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                  className="w-full px-4 py-3 bg-transparent text-white placeholder-white/60 border-none outline-none text-sm"
+                  placeholder="CPF document"
+                />
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center shadow-[0_0_11px_rgba(29,146,242,0.7)]">
                     <div className="w-2 h-2 rounded-full bg-white" />
-                  )}
+                  </div>
                 </div>
-                <span className="text-blue-400">Crisr account</span>
               </div>
-              <button className="text-white/60 hover:text-white transition-colors">
-                Forgot password?
-              </button>
             </div>
 
-            {/* Login Button */}
+            {/* Privacy Policy */}
+            <div className="flex items-center space-x-2 text-xs">
+              <div
+                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all ${
+                  acceptPolicy
+                    ? "border-blue-500 bg-blue-500 shadow-[0_0_10px_rgba(29,146,242,1)]"
+                    : "border-white/40"
+                }`}
+                onClick={() => setAcceptPolicy(!acceptPolicy)}
+              >
+                {acceptPolicy && (
+                  <div className="w-2 h-2 rounded-full bg-white" />
+                )}
+              </div>
+              <span className="text-blue-400">Privacy Policy</span>
+            </div>
+
+            {/* Sign Up Button */}
             <button className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium py-3 rounded-full transition-all duration-300 shadow-[0_-35px_10px_rgba(40,146,234,0)] hover:shadow-[0_0_20px_rgba(29,146,242,0.5)]">
-              Login
+              Sign Up
             </button>
 
-            {/* Sign Up Link */}
+            {/* Login Link */}
             <div className="text-center text-xs">
-              <span className="text-white/60">Don't have an account? </span>
+              <span className="text-white/60">Already have an account? </span>
               <Link
-                to="/signup"
+                to="/"
                 className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
               >
-                Sign Up
+                Login
               </Link>
             </div>
           </div>
