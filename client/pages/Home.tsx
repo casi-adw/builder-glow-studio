@@ -8,6 +8,79 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+// Carousel component with drag support
+const DragCarousel = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.pageX - (containerRef.current?.offsetLeft || 0));
+    setScrollLeft(containerRef.current?.scrollLeft || 0);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - (containerRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 2;
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - (containerRef.current?.offsetLeft || 0));
+    setScrollLeft(containerRef.current?.scrollLeft || 0);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - (containerRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 2;
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={`flex gap-4 overflow-x-scroll scrollbar-hide pb-2 cursor-grab ${isDragging ? "cursor-grabbing" : ""} ${className}`}
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {children}
+    </div>
+  );
+};
+
 export default function HomePage() {
   const gamesCarouselRef = useRef<HTMLDivElement>(null);
   const popularCarouselRef = useRef<HTMLDivElement>(null);
@@ -105,27 +178,26 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen w-full bg-black text-white overflow-y-auto">
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute animate-twinkle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          >
-            <div className="w-1 h-1 bg-white rounded-full opacity-40" />
-          </div>
-        ))}
-      </div>
-
       <div className="relative z-10">
         {/* Header with User Info and Logo */}
-        <div className="flex items-center justify-between p-5 pt-8">
+        <div className="relative flex items-center justify-between p-5 pt-8 overflow-hidden">
+          {/* Stars only in header */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute animate-twinkle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  animationDuration: `${2 + Math.random() * 3}s`,
+                }}
+              >
+                <div className="w-1 h-1 bg-white rounded-full opacity-40" />
+              </div>
+            ))}
+          </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="flex flex-col">
@@ -161,15 +233,7 @@ export default function HomePage() {
             <span className="text-gray-400">made for you</span>
           </h2>
 
-          <div
-            ref={gamesCarouselRef}
-            className="flex gap-2 overflow-x-scroll scrollbar-hide pb-2"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              WebkitScrollbar: { display: "none" },
-            }}
-          >
+          <DragCarousel className="gap-2">
             {[...gamesData, ...gamesData].map((game, index) => (
               <div
                 key={index}
@@ -187,7 +251,7 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-          </div>
+          </DragCarousel>
         </div>
 
         {/* Most Popular Games Section */}
@@ -200,14 +264,7 @@ export default function HomePage() {
             <span className="text-gray-400 text-sm">See all</span>
           </div>
 
-          <div
-            ref={popularCarouselRef}
-            className="flex gap-4 overflow-x-scroll scrollbar-hide pb-2"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
+          <DragCarousel>
             {[...popularGames, ...popularGames].map((game, index) => (
               <div key={index} className="min-w-[300px] flex-shrink-0">
                 <img
@@ -217,7 +274,7 @@ export default function HomePage() {
                 />
               </div>
             ))}
-          </div>
+          </DragCarousel>
         </div>
 
         {/* Crash Games Section */}
@@ -227,14 +284,7 @@ export default function HomePage() {
             <span className="text-gray-400">Games</span>
           </h2>
 
-          <div
-            ref={crashCarouselRef}
-            className="flex gap-4 overflow-x-scroll scrollbar-hide pb-2"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
+          <DragCarousel>
             {[...crashGames, ...crashGames].map((game, index) => (
               <div key={index} className="min-w-[300px] flex-shrink-0">
                 <img
@@ -244,7 +294,7 @@ export default function HomePage() {
                 />
               </div>
             ))}
-          </div>
+          </DragCarousel>
         </div>
 
         {/* Fantasy Sport Section */}
@@ -254,14 +304,7 @@ export default function HomePage() {
             <span className="text-gray-400">Sport</span>
           </h2>
 
-          <div
-            ref={fantasyCarouselRef}
-            className="flex gap-4 overflow-x-scroll scrollbar-hide pb-2"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
+          <DragCarousel>
             {[...fantasyGames, ...fantasyGames].map((game, index) => (
               <div key={index} className="min-w-[300px] flex-shrink-0">
                 <img
@@ -271,7 +314,7 @@ export default function HomePage() {
                 />
               </div>
             ))}
-          </div>
+          </DragCarousel>
         </div>
 
         {/* Android Navigation Bar */}
