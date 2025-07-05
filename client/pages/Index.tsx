@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Index() {
   const [username, setUsername] = useState("hello!");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-black flex items-center justify-center p-4">
@@ -148,7 +149,10 @@ export default function Index() {
             </div>
 
             {/* Login Button */}
-            <button className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium py-3 rounded-full transition-all duration-300 shadow-[0_-35px_10px_rgba(40,146,234,0)] hover:shadow-[0_0_20px_rgba(29,146,242,0.5)]">
+            <button
+              onClick={() => navigate("/home")}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium py-3 rounded-full transition-all duration-300 shadow-[0_-35px_10px_rgba(40,146,234,0)] hover:shadow-[0_0_20px_rgba(29,146,242,0.5)]"
+            >
               Login
             </button>
 
